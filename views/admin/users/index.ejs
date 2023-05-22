@@ -1,0 +1,45 @@
+<%- include('../../partials/header.ejs') %>
+<%- include('../../partials/navbar.ejs') %>
+<body>
+    <div class="container">
+        <hr>
+        <h2>Usuários</h2>
+        <a href="/admin/users/create" class="btn btn-success">Criar novo usuário</a>
+        <hr>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                <%users.forEach(user => { %>
+                    <tr>
+                        <td><%= user.id %></td>
+                        <td><%= user.email %></td>
+                        
+                        <th>
+                            <a href="/admin/users/edit/<%=user.id%>" class="btn btn-warning">Editar</a>
+
+                            <form method="post" action="/users/delete" style="display: inline;" onsubmit="confirmarDelecao(event, this)"><!--o this esta referenciando o elemento que está chamando esse evento-->
+                                <input type="hidden" name="id" value="<%= user.id %>">
+                                <button class="btn btn-danger">Excluir</button>
+                            </form>
+                        </th>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+    <script>
+        function confirmarDelecao(event, form) {
+            event.preventDefault()//Impede que o formulario seja submetido
+            let decision = confirm("Deseja deletar essa categoria?")
+            if (decision) {
+                form.submit()
+            }
+        }
+    </script>
+</body>
+</html>
